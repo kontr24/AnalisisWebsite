@@ -1,0 +1,244 @@
+﻿@model AnalisisWebsite.Models.Tables
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form method="post" action="~/Home/Index">
+    @Html.ValidationSummary(true, "", new { @style = "margin: 0px 0px 0px 350px;color: red" })
+    <h4 style="margin: 0px 0px 0px 150px">ЛАБОРАТОРНАЯ РАБОТА №3 Однофакторный дисперсионный анализ</h4>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-left">№ набл</th>
+                <th class="text-left">F1</th>
+                <th class="text-left">F2</th>
+                <th class="text-left">F3</th>
+                <th class="text-left">F4</th>
+                <th class="text-left">F5</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @*@for (int i = 0; i < 10; i++)
+                {
+                    List<TableValue> tableValues = await db.TableValues.ToListAsync();
+                    <tr>
+                        <td class="text-right" style="padding: 10px 10px 10px 10px">@tableValues.ToArray().ElementAt(i).F1</td>
+
+                        <td class="text-right"><input class="size-input" asp-for="@tableValues.ToArray().ElementAt(i).F1" type="text" name="F1" /> </td>
+                        <td class="text-right"><input class="size-input" asp-for="@tableValues.ToArray().ElementAt(i).F2" type="text" name="F2" /></td>
+                        <td class="text-right"><input class="size-input" asp-for="@tableValues.ToArray().ElementAt(i).F3" type="text" name="F3" /></td>
+                        <td class="text-right"><input class="size-input" asp-for="@tableValues.ToArray().ElementAt(i).F4" type="text" name="F4" /></td>
+                        <td class="text-right"><input class="size-input" asp-for="@tableValues.ToArray().ElementAt(i).F5" type="text" name="F5" /></td>
+
+                        <td><input type="text" name="id" value="@tableValues.ToArray().ElementAt(i).Id"> <input /></td>
+                    </tr>
+
+                }*@
+
+
+            @foreach (var values in Model.valuesTables)
+            {
+
+            <tr>
+                <td class="text-right" style="padding: 10px 10px 10px 10px">@values.Id</td>
+                @*<td class="text-right"><input class="size-input" asp-for="@values.F1" type="text" name="F1" value="@values.F1" />*@ @*@Html.Editor("", new { htmlAttributes = new { @class = "size-input", @Value = values.F1, @name = "F1", type = "text" } })*@<!--</td>-->
+                @*<td class="text-right"><input class="size-input" asp-for="@values.F2" type="text" name="F2" value="@values.F2" /></td>
+        <td class="text-right"><input class="size-input" asp-for="@values.F3" type="text" name="F3" value="@values.F3" /></td>
+        <td class="text-right"><input class="size-input" asp-for="@values.F4" type="text" name="F4" value="@values.F4" /></td>
+        <td class="text-right"><input class="size-input" asp-for="@values.F5" type="text" name="F5" value="@values.F5" /></td>*@
+
+
+                @*<td><input type="text" name="id" value="@values.Id"> <input /></td>*@
+
+                @*<td class="text-none"><input class="button-edit" type="submit" name="id" value="1" /></td>*@
+                @* @Html.ActionLink("Изменить", "Index", "Home", new { id = values.Id }, new { @class = "button delete", @Value = values.Id, @name = "id" })*@
+
+              
+                <td class="text-right"><input class="size-input" min="1" asp-for="@values.F1" type="number" name="F1" /><span asp-validation-for="@values.F1" /></td>         
+                <td class="text-right"><input class="size-input" min="1" asp-for="@values.F2" type="number" name="F2" /><span asp-validation-for="@values.F2" /></td>
+                <td class="text-right"><input class="size-input" min="1" asp-for="@values.F3" type="number" name="F3" /><span asp-validation-for="@values.F3" /></td>
+                <td class="text-right"><input class="size-input" min="1" asp-for="@values.F4" type="number" name="F4" /><span asp-validation-for="@values.F4" /></td>
+                <td class="text-right"><input class="size-input" min="1" asp-for="@values.F5" type="number" name="F5" /><span asp-validation-for="@values.F5" /></td>
+
+            </tr>
+            }
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                @if (ViewBag.averageX != null)
+                {
+                    <td class="text-right">x ̅_j</td>
+                    foreach (var i in ViewBag.averageX)
+                    {
+                        <td>@i</td>
+                    }
+                }
+            </tr>
+            <tr>
+                @if (ViewBag.varianceS != null)
+                {
+                    <td class="text-right">S_j^2</td>
+                    foreach (var i in ViewBag.varianceS)
+                    {
+                        <td>@Math.Round(i, 3)</td>
+                    }
+                }
+            </tr>
+            <tr>
+                @if (ViewBag.varianceS2 != null)
+                {
+                    <td class="text-right">S_j^2</td>
+                    foreach (var i in ViewBag.varianceS2)
+                    {
+                        <td>@Math.Round(i, 3)</td>
+                    }
+                }
+            </tr>
+            <tr>
+                @if (ViewBag.varianceX != null)
+                {
+                    <td class="text-right">x ̅</td>
+                    foreach (var i in ViewBag.varianceX)
+                    {
+                        <td>@Math.Round(i, 3)</td>
+                    }
+                }
+            </tr>
+        </tfoot>
+
+    </table>
+    <br />
+    <input class="button-edit" type="submit" value="Рассчитать" />
+    @if (ViewBag.observedG != null)
+    {<br />
+        <label class="calculations-output">@ViewBag.observedG</label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.criticalG
+        </label>
+        <br />
+        <label class="calculations-output-bold">
+            @ViewBag.comparisonG
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.xjAverage
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.generalS
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.actualS
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.residualS
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.sActual
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.sResidual
+        </label>
+        <br />
+        <label class="calculations-output-bold">
+            @ViewBag.sСomparison
+        </label>
+        <br /><br />
+        <label class="calculations-output">
+            @ViewBag.numerator
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.denominator
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.observedF
+        </label>
+        <br />
+        <label class="calculations-output">
+            @ViewBag.criticalF
+        </label>
+        <br />
+        <label class="calculations-output-bold">
+            @ViewBag.comparisonF
+        </label>
+
+    }
+
+
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<style>
+    .table {
+        width: auto;
+        margin-bottom: 20px;
+        border: 1px solid #dddddd;
+        border-collapse: collapse;
+        margin: 0px 0px 0px 300px
+    }
+
+        .table th {
+            font-weight: bold;
+            padding: 25px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+
+    .size-input {
+        width: 70px;
+        text-align: center;
+    }
+
+    .text-none {
+        /*display: none;*/ /*скрыть*/
+    }
+
+    .button-edit {
+        margin: 10px 0px 30px 500px;
+        width: 150px;
+        height: 35px;
+        border: none;
+        border: solid 2px #240fdc;
+        border-radius: 5px;
+        background: #240fdc;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .calculations-output {
+        margin: 0px 0px 0px 300px;
+    }
+
+    .calculations-output-bold {
+        margin: 0px 0px 0px 300px;
+        font-weight: bold;
+    }
+
+    /*красный цвет при валидации*/
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+    /*красный цвет при валидации*/
+</style>
